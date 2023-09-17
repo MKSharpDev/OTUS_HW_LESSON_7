@@ -55,7 +55,7 @@ namespace WebApi.Controllers
             {
                 Type = "https://httpstatuses.com/409",
                 Status = StatusCodes.Status409Conflict,
-                Title = "Already exist"
+                Title = "Already exists"
             };
             return StatusCode(409, error); 
 

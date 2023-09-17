@@ -6,10 +6,9 @@ namespace WebApi.Models
     {
             public long Id { get; init; }
         
-            [Required]
+            
             public string Firstname { get; init; }
 
-            [Required]
             public string Lastname { get; init; }
     }
 }
