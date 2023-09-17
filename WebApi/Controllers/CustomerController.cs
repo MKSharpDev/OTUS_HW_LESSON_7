@@ -43,6 +43,10 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Customer>> Post([FromBody] Customer customer)
         {
+            if (customer == null)
+            {
+                return StatusCode(400);
+            }
             var SearchCustomer = _context.Customer.SingleOrDefault(p => p.Id == customer.Id);
             if (SearchCustomer == null)
             {

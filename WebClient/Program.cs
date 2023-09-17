@@ -20,7 +20,7 @@ namespace WebClient
 
             while (!exit)
             {
-                string command =  Console.ReadLine().ToString();
+                string command = Console.ReadLine().ToString();
                 switch (command)
                 {
                     case ("getall"):
@@ -57,7 +57,7 @@ namespace WebClient
                                 else
                                 {
                                     Console.WriteLine(result.StatusCode);
-                                }                               
+                                }
                             }
                         }
                         break;
@@ -73,29 +73,28 @@ namespace WebClient
                                 Console.WriteLine("Напишите lastName пользователя");
                                 string lastName = Console.ReadLine();
 
-
                                 CustomerCreateRequest innCustomer = new CustomerCreateRequest(id, firstName, lastName);
-                                var jsonResult = JsonSerializer.Serialize(innCustomer);
+                                CreateRequest(innCustomer);
 
-                                var content = new StringContent(jsonResult, Encoding.UTF8, "application/json");
-                                HttpClient client = new HttpClient();
-                                var response =  client.PostAsync("https://localhost:7178/api/Customer", content);
-                                Console.WriteLine(response.Result.ToString());
+
 
                             }
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                                 break;
-                            }                           
+                            }
                         }
+                        break;
+                    case ("rand"):
+                        CreateRequest(RandomCustomer());
                         break;
                     case ("exit"):
                         exit = true;
                         break;
-                    case ("help"):                    
-                        Console.WriteLine("Выход - exit ; Найти по ID  -  get; Список всех -  getall; добавить  - in");
-                        break;               
+                    case ("help"):
+                        Console.WriteLine("Выход - exit ; Найти по ID  -  get; Список всех -  getall; добавить  - in; сгенерировать рандомного - rand");
+                        break;
                     default:
                         Console.WriteLine("Низвестная команда, для подсказки набери  help ");
                         break;
@@ -104,11 +103,36 @@ namespace WebClient
             }
         }
 
+        private static void CreateRequest(CustomerCreateRequest innCustomer)
+        {
+            var jsonResult = JsonSerializer.Serialize(innCustomer);
+
+            var content = new StringContent(jsonResult, Encoding.UTF8, "application/json");
+            HttpClient client = new HttpClient();
+            var response = client.PostAsync("https://localhost:7178/api/Customer", content);
+            Console.WriteLine(response.Result.ToString());
+        }
         private static CustomerCreateRequest RandomCustomer()
         {
-            throw new NotImplementedException();
-        }
+            Random random = new Random();
 
+            List<string> names = new List<string>()                 //Необходимо для генерации имени и фамилии
+            {   "Павел", "Василий", "Адам", "Иван", "Виктор", "Артемий",
+                "Кирилл", "Матвей", "Тимофей", "Игорь", "Артём", "Максим", "Михаил" };
+
+
+            List<string> lastName = new List<string>()
+            {   "Крючков", "Киселев", "Кириллов", "Кузнецов", "Куликов", "Лапин",
+                "Лебедев", "Логинов", "Лукьянов", "Медведев", "Мельников", "Николаев", "Панин" };
+
+
+            return new CustomerCreateRequest()
+            {
+                Id = random.Next(1000000),
+                Firstname = names[random.Next(names.Count)],
+                Lastname = lastName[random.Next(lastName.Count)]
+            };
+        }
 
     }
 

@@ -11,14 +11,14 @@ namespace WebClient
             string firstName,
             string lastName)
         {
-            id = customerId;
-            firstname = firstName;
-            lastname = lastName;
+            Id = customerId;
+            Firstname = firstName;
+            Lastname = lastName;
         }
 
-        public long id { get; init; }
-        public string firstname { get; init; }
+        public long Id { get; init; }
+        public string Firstname { get; init; }
 
-        public string lastname { get; init; }
+        public string Lastname { get; init; }
     }
 }
